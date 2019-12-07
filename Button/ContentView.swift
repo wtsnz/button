@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CustomButton: View {
+struct CustomButton<Label> : View where Label : View {
 
     private enum ButtonGestureState {
         case inactive
@@ -28,8 +28,15 @@ struct CustomButton: View {
     @GestureState private var dragState = ButtonGestureState.inactive
     @State private var isPressed = false
 
-    let action: () -> Void
+    private let action: () -> Void
+    private let label: () -> Label
 
+    public init(action: @escaping () -> Void, @ViewBuilder label: @escaping () -> Label) {
+        self.action = action
+        self.label = label
+    }
+
+    /// Declares the content and behavior of this view.
     var body: some View {
 
         let dragGesture = DragGesture(minimumDistance: 0)
@@ -59,11 +66,10 @@ struct CustomButton: View {
                 }
             }
 
-        return Text("Hello, World!")
-                .foregroundColor(.blue)
-                .opacity(isPressed ? 0.3 : 1.0)
-                .gesture(dragGesture)
-
+        return self.label()
+            .foregroundColor(.blue)
+            .opacity(isPressed ? 0.3 : 1.0)
+            .gesture(dragGesture)
     }
 }
 
@@ -71,10 +77,13 @@ struct ContentView: View {
     var body: some View {
 
         VStack {
-            CustomButton() {
-                dump("tappped")
-                return
-            }
+            CustomButton(action: {
+                print("tapped!")
+            }, label: {
+                Text("Hello, World!")
+                    .padding()
+                    .background(Color.red)
+            })
             Button("This is a long button") {
                 dump("tapped")
                 return
