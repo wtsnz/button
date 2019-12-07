@@ -12,7 +12,7 @@ struct ContentView: View {
     var body: some View {
 
         VStack {
-            CustomButton(action: {
+            LoadingButton(action: {
                 print("tapped!")
             }, label: {
                 Text("Hello, World!")

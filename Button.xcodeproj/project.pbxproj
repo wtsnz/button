@@ -16,6 +16,7 @@
 		BE583678239B14D800240335 /* ButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE583677239B14D800240335 /* ButtonTests.swift */; };
 		BE583683239B14D800240335 /* ButtonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE583682239B14D800240335 /* ButtonUITests.swift */; };
 		BE583691239B600500240335 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE583690239B600500240335 /* CustomButton.swift */; };
+		BE583693239B61A200240335 /* LoadableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE583692239B61A200240335 /* LoadableButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		BE583682239B14D800240335 /* ButtonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonUITests.swift; sourceTree = "<group>"; };
 		BE583684239B14D800240335 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE583690239B600500240335 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		BE583692239B61A200240335 /* LoadableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			children = (
 				BE583660239B14D500240335 /* AppDelegate.swift */,
 				BE583690239B600500240335 /* CustomButton.swift */,
+				BE583692239B61A200240335 /* LoadableButton.swift */,
 				BE583662239B14D500240335 /* SceneDelegate.swift */,
 				BE583664239B14D500240335 /* ContentView.swift */,
 				BE583666239B14D800240335 /* Assets.xcassets */,
@@ -271,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE583691239B600500240335 /* CustomButton.swift in Sources */,
+				BE583693239B61A200240335 /* LoadableButton.swift in Sources */,
 				BE583661239B14D500240335 /* AppDelegate.swift in Sources */,
 				BE583663239B14D500240335 /* SceneDelegate.swift in Sources */,
 				BE583665239B14D500240335 /* ContentView.swift in Sources */,
