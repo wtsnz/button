@@ -25,6 +25,8 @@ struct CustomButton<Label> : View where Label : View {
         }
     }
 
+    @Environment(\.customButtonStyle) var style: AnyCustomButtonStyle
+
     @GestureState private var dragState = ButtonGestureState.inactive
     @State private var isPressed = false
 
@@ -66,10 +68,13 @@ struct CustomButton<Label> : View where Label : View {
                 }
             }
 
-        return self.label()
-            .foregroundColor(.blue)
-            .opacity(isPressed ? 0.3 : 1.0)
-            .gesture(dragGesture)
+        let configuration = CustomButtonStyleConfiguration(
+            isPressed: isPressed,
+            label: AnyView(self.label())
+        )
+
+        return style.makeBody(configuration: configuration)
+                    .gesture(dragGesture)
     }
 }
 
@@ -81,8 +86,6 @@ struct ContentView: View {
                 print("tapped!")
             }, label: {
                 Text("Hello, World!")
-                    .padding()
-                    .background(Color.red)
             })
             Button("This is a long button") {
                 dump("tapped")
@@ -96,5 +99,89 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+// MARK: - Custom Environment Key
+extension EnvironmentValues {
+    var customButtonStyle: AnyCustomButtonStyle {
+        get {
+            return self[CustomButtonStyleKey.self]
+        }
+        set {
+            self[CustomButtonStyleKey.self] = newValue
+        }
+    }
+}
+
+public struct CustomButtonStyleKey: EnvironmentKey {
+    public static let defaultValue: AnyCustomButtonStyle = AnyCustomButtonStyle(DefaultCustomButtonStyle())
+}
+
+
+// MARK: - View Extension
+extension View {
+    public func customButtonStyle<S>(_ style: S) -> some View where S : CustomButtonStyle {
+        self.environment(\.customButtonStyle, AnyCustomButtonStyle(style))
+    }
+}
+
+// MARK: - Type Erased CustomButtonStyle
+public struct AnyCustomButtonStyle: CustomButtonStyle {
+    private let _makeBody: (CustomButtonStyle.Configuration) -> AnyView
+
+    init<ST: CustomButtonStyle>(_ style: ST) {
+        self._makeBody = style.makeBodyTypeErased
+    }
+
+    public func makeBody(configuration: CustomButtonStyle.Configuration) -> AnyView {
+        return self._makeBody(configuration)
+    }
+}
+
+// MARK: - TripleToggleStyle Protocol
+public protocol CustomButtonStyle {
+    associatedtype Body : View
+
+    func makeBody(configuration: Self.Configuration) -> Self.Body
+
+    typealias Configuration = CustomButtonStyleConfiguration
+}
+
+extension CustomButtonStyle {
+    func makeBodyTypeErased(configuration: Self.Configuration) -> AnyView {
+        AnyView(self.makeBody(configuration: configuration))
+    }
+}
+
+
+public struct CustomButtonStyleConfiguration {
+    var isPressed: Bool
+    var label: AnyView
+}
+
+
+// MARK: - DefaultTripleToggleStyle
+public struct DefaultCustomButtonStyle: CustomButtonStyle {
+
+    public func makeBody(configuration: Self.Configuration) -> DefaultCustomButtonStyle.DefaultCustomButton {
+
+        DefaultCustomButton(
+            label: configuration.label,
+            isPressed: configuration.isPressed
+        )
+    }
+
+    public struct DefaultCustomButton: View {
+
+        var label: AnyView
+        var isPressed: Bool
+
+        public var body: some View {
+            label
+                .foregroundColor(.blue)
+                .opacity(isPressed ? 0.3 : 1.0)
+        }
+
     }
 }
