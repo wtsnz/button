@@ -17,6 +17,7 @@
 		BE583683239B14D800240335 /* ButtonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE583682239B14D800240335 /* ButtonUITests.swift */; };
 		BE583691239B600500240335 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE583690239B600500240335 /* CustomButton.swift */; };
 		BE583693239B61A200240335 /* LoadableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE583692239B61A200240335 /* LoadableButton.swift */; };
+		BE583695239B630300240335 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE583694239B630300240335 /* ActivityIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		BE583684239B14D800240335 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE583690239B600500240335 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		BE583692239B61A200240335 /* LoadableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableButton.swift; sourceTree = "<group>"; };
+		BE583694239B630300240335 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				BE583660239B14D500240335 /* AppDelegate.swift */,
+				BE583694239B630300240335 /* ActivityIndicator.swift */,
 				BE583690239B600500240335 /* CustomButton.swift */,
 				BE583692239B61A200240335 /* LoadableButton.swift */,
 				BE583662239B14D500240335 /* SceneDelegate.swift */,
@@ -277,6 +280,7 @@
 				BE583693239B61A200240335 /* LoadableButton.swift in Sources */,
 				BE583661239B14D500240335 /* AppDelegate.swift in Sources */,
 				BE583663239B14D500240335 /* SceneDelegate.swift in Sources */,
+				BE583695239B630300240335 /* ActivityIndicator.swift in Sources */,
 				BE583665239B14D500240335 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

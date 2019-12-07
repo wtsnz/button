@@ -25,6 +25,8 @@ struct LoadingButton<Label> : View where Label : View {
         }
     }
 
+    @Environment(\.isEnabled) var isEnabled
+
     @Environment(\.loadingButtonStyle) var style: AnyLoadingButtonStyle
 
     @GestureState private var dragState = ButtonGestureState.inactive
@@ -33,14 +35,20 @@ struct LoadingButton<Label> : View where Label : View {
     private let action: () -> Void
     private let label: () -> Label
 
-    public init(action: @escaping () -> Void, @ViewBuilder label: @escaping () -> Label) {
+    var isLoading: Bool
+
+    public init(
+        action: @escaping () -> Void,
+        isLoading: Bool = false,
+        @ViewBuilder label: @escaping () -> Label
+    ) {
         self.action = action
+        self.isLoading = isLoading
         self.label = label
     }
 
     /// Declares the content and behavior of this view.
     var body: some View {
-
         let dragGesture = DragGesture(minimumDistance: 0)
             .updating($dragState, body: { value, state, transaction in
                 let distance = sqrt(
@@ -70,11 +78,16 @@ struct LoadingButton<Label> : View where Label : View {
 
         let configuration = LoadingButtonStyleConfiguration(
             isPressed: isPressed,
+            isLoading: isLoading,
             label: AnyView(self.label())
         )
 
         return style.makeBody(configuration: configuration)
                     .gesture(dragGesture)
+                    /// Override the isEnabled if we're loading
+                    /// This prevents tapping the button while it's
+                    /// loading.
+                    .environment(\.isEnabled, isEnabled && !isLoading)
     }
 }
 
@@ -137,6 +150,7 @@ extension LoadingButtonStyle {
 
 public struct LoadingButtonStyleConfiguration {
     var isPressed: Bool
+    var isLoading: Bool
     var label: AnyView
 }
 
@@ -149,7 +163,8 @@ public struct DefaultLoadingButtonStyle: LoadingButtonStyle {
 
         DefaultLoadingButton(
             label: configuration.label,
-            isPressed: configuration.isPressed
+            isPressed: configuration.isPressed,
+            isLoading: configuration.isLoading
         )
     }
 
@@ -157,11 +172,17 @@ public struct DefaultLoadingButtonStyle: LoadingButtonStyle {
 
         var label: AnyView
         var isPressed: Bool
+        var isLoading: Bool
 
         public var body: some View {
-            label
-                .foregroundColor(.blue)
-                .opacity(isPressed ? 0.3 : 1.0)
+            ZStack {
+                label
+                    .foregroundColor(.blue)
+                    .opacity(isLoading ? 0.0 : (isPressed ? 0.3 : 1.0))
+                if isLoading {
+                    ActivityIndicator(style: .medium)
+                }
+            }
         }
 
     }

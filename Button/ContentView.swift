@@ -9,20 +9,36 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    @State var isLoading = false
+
     var body: some View {
 
         VStack {
-            LoadingButton(action: {
-                print("tapped!")
-            }, label: {
-                Text("Hello, World!")
-            })
+            LoadingButton(
+                action: {
+                    print("tapped!")
+                    self.startLoading()
+                },
+                isLoading: isLoading,
+                label: {
+                    Text("Hello, World!")
+                }
+            )
             Button("This is a long button") {
                 dump("tapped")
                 return
             }
         }
 
+    }
+
+    func startLoading() {
+        isLoading = true
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            self.isLoading = false
+        }
     }
 }
 
